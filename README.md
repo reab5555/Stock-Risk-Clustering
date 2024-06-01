@@ -15,34 +15,7 @@ Beta is a measure of a stock's volatility in relation to the overall market. It 
 ### R-Squared
 In the context of finance, R-squared is often used to evaluate how well a stock's price movements can be explained by the movements of the overall market. A higher R-squared value indicates a stronger relationship between the stock and the market.
 
-## Project Overview
-
-The script performs the following steps:
-
-1. Fetches historical stock data for the S&P 500 constituents from Yahoo Finance.
-2. Calculates the beta and R-squared values for each stock against the S&P 500 index.
-3. Standardizes the beta and R-squared values.
-4. Determines the optimal number of clusters using the Bayesian Information Criterion (BIC).
-5. Performs Gaussian Mixture Model clustering with the optimal number of clusters.
-6. Filters out outliers for plotting purposes.
-7. Generates a scatter plot using Plotly, where each point represents a stock, colored according to its assigned cluster.
-   - The x-axis represents the beta values.
-   - The y-axis represents the R-squared values.
-   - The size of each point represents the latest close price of the stock.
-8. Adds red lines at beta = 0 and beta = 1 for reference.
-9. Displays the number of valid stocks used in the analysis.
-
 ## Dependencies
-
-The script requires the following Python libraries:
-
-- pandas
-- numpy
-- tqdm
-- scikit-learn
-- plotly
-- matplotlib
-- yfinance
 
 You can install these dependencies using pip:
 
@@ -68,5 +41,3 @@ python stock_clustering.py
 The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock. The plot also includes red lines at beta = 0 and beta = 1 for reference.
 
 The number of valid stocks used in the analysis is displayed in the plot and printed in the console output.
-
-Feel free to explore and modify the script to suit your specific requirements.
