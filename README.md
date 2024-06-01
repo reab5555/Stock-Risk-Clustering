@@ -6,6 +6,12 @@ This project aims to cluster stocks from the S&P 500 index based on their beta v
 ### Beta
 Beta is a measure of a stock's volatility in relation to the overall market. It indicates how sensitive a stock's price is to market movements. A beta greater than 1 suggests that the stock is more volatile than the market, while a beta less than 1 indicates that the stock is less volatile than the market. A beta of 1 means that the stock moves in line with the market.
 
+* β = 1: Indicates that the stock's price will move with the market.   
+* β < 1: Indicates that the stock is less volatile than the market.   
+* β > 1: Indicates that the stock is more volatile than the market.   
+* β = 0: Indicates that the stock's price is not correlated with the market.   
+* Negative β: Indicates that the stock moves inversely to the market.   
+
 ### R-Squared
 R-squared, also known as the coefficient of determination, is a statistical measure that represents the proportion of the variance in a dependent variable that can be explained by an independent variable. In the context of finance, R-squared is often used to evaluate how well a stock's price movements can be explained by the movements of the overall market. A higher R-squared value indicates a stronger relationship between the stock and the market.
 
