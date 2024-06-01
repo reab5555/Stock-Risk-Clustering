@@ -13,7 +13,7 @@ Beta is a measure of a stock's volatility in relation to the overall market. It 
 * Negative β: Indicates that the stock moves inversely to the market.   
 
 ### R-Squared
-R-squared, also known as the coefficient of determination, is a statistical measure that represents the proportion of the variance in a dependent variable that can be explained by an independent variable. In the context of finance, R-squared is often used to evaluate how well a stock's price movements can be explained by the movements of the overall market. A higher R-squared value indicates a stronger relationship between the stock and the market.
+In the context of finance, R-squared is often used to evaluate how well a stock's price movements can be explained by the movements of the overall market. A higher R-squared value indicates a stronger relationship between the stock and the market.
 
 ## Project Overview
 
