@@ -18,7 +18,9 @@ Beta is a measure of a stock's volatility in relation to the overall market. It 
 In the context of finance, R-squared is often used to evaluate how well a stock's price movements can be explained by the movements of the overall market. A higher R-squared value indicates a stronger relationship between the stock and the market.
 
 ## Gaussian Mixture Model (GMM)
-Gaussian Mixture Model (GMM) is a probabilistic model that assumes the data is generated from a mixture of a finite number of Gaussian distributions. It is commonly used for clustering tasks, where the goal is to group similar data points together based on their underlying probability distributions.   
+Gaussian Mixture Model (GMM) is a probabilistic model that assumes the data is generated from a mixture of a finite number of Gaussian distributions. It is commonly used for clustering tasks, where the goal is to group similar data points together based on their underlying probability distributions.    
+
+The optimal number of clusters can be determined using the Bayesian Information Criterion (BIC), as it balance the goodness of fit with the complexity of the model, helping to avoid overfitting or underfitting.
 
 ## Dependencies
 
