@@ -1,4 +1,4 @@
-<img src="icon.webp" width="150" alt="alt text">
+<img src="images/icon.webp" width="150" alt="alt text">
 
 # Stock-Risk-Clustering
 This project aims to cluster stocks from the S&P 500 index or the Tel Aviv Stock Exchange (TASE) based on their beta values and R-squared values in order to asses risks for investment portfolios.  
@@ -56,6 +56,6 @@ python Stocks_Risk_Clustering_TASE.py
 
 The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock.
 
-<img src="SP500_example.png" width="800" alt="alt text">
-<img src="TASE_example.png" width="800" alt="alt text">
+<img src="images/SP500_example.png" width="800" alt="alt text">
+<img src="images/TASE_example.png" width="800" alt="alt text">
 
