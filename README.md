@@ -52,6 +52,4 @@ python Stocks_Risk_Clustering_TASE.py
 
 ## Results
 
-The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock. The plot also includes red lines at beta = 0 and beta = 1 for reference.
-
-The number of valid stocks used in the analysis is displayed in the plot and printed in the console output.
+The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock.
