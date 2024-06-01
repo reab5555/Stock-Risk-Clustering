@@ -1,3 +1,5 @@
+<img src="icon.webp" width="150" alt="alt text">
+
 # Stock-Risk-Clustering
 This project aims to cluster stocks from the S&P 500 index or the Tel Aviv Stock Exchange (TASE) based on their beta values and R-squared values in order to asses risks for investment portfolios.  
    
