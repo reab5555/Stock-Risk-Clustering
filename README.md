@@ -30,16 +30,18 @@ pip install pandas numpy tqdm scikit-learn plotly matplotlib yfinance
 
 ## Usage
 
-1. Ensure that you have the required dependencies installed.
-2. Prepare a CSV file containing the list of S&P 500 stock symbols. The file should have a column named "Symbol".
-3. Update the `stocks_filepath` variable in the script with the path to your CSV file.
-4. Run the script:
+### S&P 500 Stocks
 
 ```
-python stock_clustering.py
+python Stocks_Risk_Clustering_SP500.py
 ```
 
-5. The script will fetch the stock data, perform the clustering analysis, and display the resulting plot.
+### TASE Stocks
+
+```
+python Stocks_Risk_Clustering_TASE.py
+```
+
 
 ## Results
 
