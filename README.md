@@ -4,7 +4,7 @@ This project aims to cluster stocks from the S&P 500 index based on their beta v
 ## Beta and R-Squared in Finance
 
 ### Beta
-Beta is a measure of a stock's volatility in relation to the overall market. It indicates how sensitive a stock's price is to market movements. A beta greater than 1 suggests that the stock is more volatile than the market, while a beta less than 1 indicates that the stock is less volatile than the market. A beta of 1 means that the stock moves in line with the market.
+Beta is a measure of a stock's volatility in relation to the overall market. It indicates how sensitive a stock's price is to market movements.
 
 * β = 1: Indicates that the stock's price will move with the market.   
 * β < 1: Indicates that the stock is less volatile than the market.   
