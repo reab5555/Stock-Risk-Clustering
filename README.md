@@ -17,6 +17,11 @@ Beta is a measure of a stock's volatility in relation to the overall market. It 
 ### R-Squared
 In the context of finance, R-squared is often used to evaluate how well a stock's price movements can be explained by the movements of the overall market. A higher R-squared value indicates a stronger relationship between the stock and the market.
 
+R² = 1: This indicates a perfect linear relationship between the stock and the market. All of the stock's price movements can be explained by the market's movements.   
+R² = 0.5: This suggests that 50% of the stock's price movements can be explained by the market's movements, while the remaining 50% is due to other factors.   
+R² = 0.25: This indicates that only 25% of the stock's price movements can be explained by the market's movements, while the remaining 75% is attributed to other factors.   
+R² = 0: This suggests that none of the stock's price movements can be explained by the market's movements. The stock's price movements are entirely independent of the market.   
+
 ## Gaussian Mixture Model (GMM)
 Gaussian Mixture Model (GMM) is a probabilistic model that assumes the data is generated from a mixture of a finite number of Gaussian distributions. It is commonly used for clustering tasks, where the goal is to group similar data points together based on their underlying probability distributions.    
 
