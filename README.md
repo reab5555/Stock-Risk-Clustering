@@ -1,5 +1,5 @@
 # Stock-Risk-Clustering
-This project aims to cluster stocks from the S&P 500 index based on their beta values and R-squared values in order to asses risks for investment portfolios. The script fetches historical stock data from Yahoo Finance, calculates the beta and R-squared for each stock against the S&P 500 index, and performs clustering using the Gaussian Mixture Model (GMM) algorithm.    
+This project aims to cluster stocks from the S&P 500 index based on their beta values and R-squared values in order to asses risks for investment portfolios. The script fetches historical stock data from Yahoo Finance, calculates the beta and R-squared for each stock against the S&P 500 index, and performs clustering using the Gaussian Mixture Model (GMM).    
 
 ## Beta and R-Squared in Finance
 
