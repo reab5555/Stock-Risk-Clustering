@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 from sklearn.mixture import GaussianMixture
-from sklearn.preprocessing import StandardScaler
-import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import yfinance as yf
@@ -34,7 +32,7 @@ def calculate_r_squared(stock_returns, market_returns):
 # Determine the optimal number of clusters using BIC
 def determine_optimal_clusters(data):
     bics = []
-    n_clusters_range = range(5, 16)  # from 5 to 15 clusters
+    n_clusters_range = range(5, 13)  # from 5 to 12 clusters
 
     for n_clusters in n_clusters_range:
         gmm = GaussianMixture(n_components=n_clusters, random_state=42)
@@ -59,6 +57,19 @@ def determine_optimal_clusters(data):
 def align_data(stock_data, index_data):
     aligned_data = stock_data.join(index_data, how='inner', lsuffix='_stock', rsuffix='_index')
     return aligned_data
+
+# Determine the risk level of a stock based on beta value
+def risk_level(beta):
+    if beta < 0.5:
+        return "Very Low Risk"
+    elif beta < 1:
+        return "Low Risk"
+    elif beta < 1.5:
+        return "Moderate Risk"
+    elif beta < 2:
+        return "High Risk"
+    else:
+        return "Very High Risk"
 
 # Main function to process the data
 def analyze_stocks(stocks_filepath, index_symbol, years=5):
@@ -93,12 +104,10 @@ def analyze_stocks(stocks_filepath, index_symbol, years=5):
 
             if not aligned_data['Close_stock'].empty and not aligned_data['Close_index'].empty:
                 beta, cov, var = calculate_beta(aligned_data['Close_stock'].dropna(), aligned_data['Close_index'].dropna())
-                print(f"Stock: {symbol}, Beta: {beta}, Covariance: {cov}, Variance: {var}, "
-                      f"Stock Returns: {aligned_data['Close_stock'].mean()}, Market Returns: {aligned_data['Close_index'].mean()}")  # Debugging output
                 if np.isfinite(beta):
-                    betas[symbol] = beta
-                    r_squared_values[symbol] = calculate_r_squared(aligned_data['Close_stock'].dropna(), aligned_data['Close_index'].dropna())
-                    latest_close_values[symbol] = stock_data['Close_stock'].iloc[-1]
+                    betas[symbol] = round(beta, 3)
+                    r_squared_values[symbol] = round(calculate_r_squared(aligned_data['Close_stock'].dropna(), aligned_data['Close_index'].dropna()), 3)
+                    latest_close_values[symbol] = round(stock_data['Close_stock'].iloc[-1], 3)
                     symbols[symbol] = symbol
                     valid_stocks_count += 1
                 else:
@@ -128,9 +137,11 @@ def analyze_stocks(stocks_filepath, index_symbol, years=5):
     cluster_labels = gmm.fit_predict(features)
     results_df['Cluster'] = cluster_labels
 
-    # Save the results to a CSV file
-    results_df.to_csv('S&P500_results.csv', index=False)
+    # Add risk level information
+    results_df['Risk Level'] = results_df['Beta'].apply(risk_level)
 
+    # Save the results to a CSV file
+    results_df.to_csv('SP500_results.csv', index=False)
 
     # Generate random colors for each cluster
     custom_colors = []
@@ -150,15 +161,16 @@ def analyze_stocks(stocks_filepath, index_symbol, years=5):
                                                        sizemode='area'),
                            hovertext=cluster_df['Symbol'] + '<br>' + cluster_df['Name'] + '<br>Beta: ' + cluster_df[
                                'Beta'].astype(str) + '<br>R-Squared: ' + cluster_df['R-Squared'].astype(
-                               str) + '<br>Latest Close: ' + cluster_df['Latest Close'].astype(str),
-                           name=f'Cluster {cluster}',
+                               str) + '<br>Latest Close Price: ' + cluster_df['Latest Close'].astype(str) +
+                                     '<br>Risk Level: ' + cluster_df['Risk Level'],
+                           showlegend=False,  # Hide legend for clusters
                            marker_color=custom_colors[cluster % len(custom_colors)])
         traces.append(trace)
 
     # Create the layout
-    layout = go.Layout(title=f'S&P500 Index Stock Clustering based on Beta and R-Squared (Optimal Clusters: {optimal_clusters})',
-                       xaxis=dict(title='Beta', tickmode='linear', dtick=0.25),
-                       yaxis=dict(title='R-Squared'))
+    layout = go.Layout(title=f'S&P500 Index Stock Clustering based on Beta and R-Squared',
+                       xaxis=dict(title='β (Risk)', tickmode='linear', dtick=0.25),
+                       yaxis=dict(title='R² (Market Dependency)'))
 
     # Create the figure
     fig = go.Figure(data=traces, layout=layout)
@@ -178,7 +190,6 @@ def analyze_stocks(stocks_filepath, index_symbol, years=5):
     fig.show()
 
     print(f"Number of valid stocks: {valid_stocks_count}")
-
 
 stocks_filepath = "SP500_stock_list_Jan-1-2024.csv"
 index_symbol = "^GSPC"  # S&P 500 Index
