@@ -1,14 +1,12 @@
-import random
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
 from sklearn.mixture import GaussianMixture
-from sklearn.preprocessing import StandardScaler
-import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import yfinance as yf
 from datetime import datetime, timedelta
+import random
 
 # Function to fetch data from Yahoo Finance
 def fetch_data(symbol, start_date, end_date):
@@ -34,7 +32,7 @@ def calculate_r_squared(stock_returns, market_returns):
 # Determine the optimal number of clusters using BIC
 def determine_optimal_clusters(data):
     bics = []
-    n_clusters_range = range(5, 16)  # from 5 to 15 clusters
+    n_clusters_range = range(5, 13)  # from 5 to 12 clusters
 
     for n_clusters in n_clusters_range:
         gmm = GaussianMixture(n_components=n_clusters, random_state=42)
@@ -57,10 +55,21 @@ def determine_optimal_clusters(data):
 
 # Align stock and market data
 def align_data(stock_data, index_data):
-    stock_data.index = stock_data.index.tz_localize(None)
-    index_data.index = index_data.index.tz_localize(None)
     aligned_data = stock_data.join(index_data, how='inner', lsuffix='_stock', rsuffix='_index')
     return aligned_data
+
+# Determine the risk level of a stock based on beta value
+def risk_level(beta):
+    if beta < 0.5:
+        return "Very Low Risk"
+    elif beta < 1:
+        return "Low Risk"
+    elif beta < 1.5:
+        return "Moderate Risk"
+    elif beta < 2:
+        return "High Risk"
+    else:
+        return "Very High Risk"
 
 # Function to fetch data for Israeli stocks from Yahoo Finance
 def fetch_israeli_stocks(stock_list, start_date, end_date):
@@ -107,26 +116,22 @@ def analyze_israeli_stocks(stocks_filepath, index_symbol, years=5):
     valid_stocks_count = 0
 
     # Fetch stock data
-    all_stocks_data = fetch_israeli_stocks(stock_symbols, start_date, end_date)
-
-    for symbol in tqdm(stock_symbols, desc="Calculating metrics"):
-        stock_data = all_stocks_data[all_stocks_data['Symbol'] == symbol.replace('.TA', '')][['Date', 'Close']]
-        stock_data.set_index('Date', inplace=True)
+    for symbol in tqdm(stock_symbols, desc="Fetching stock data and calculating metrics"):
+        stock_data = fetch_data(symbol, start_date, end_date)
+        stock_data = stock_data['Close'].to_frame(name='Close_stock')
 
         if not stock_data.empty:
-            stock_returns = stock_data['Close'].pct_change().dropna()
+            stock_returns = stock_data['Close_stock'].pct_change().dropna()
             market_returns = index_data['Close_index'].pct_change().dropna()
 
-            aligned_data = align_data(stock_returns.to_frame(name='Close_stock'), market_returns.to_frame(name='Close_index'))
+            aligned_data = align_data(stock_returns.to_frame(), market_returns.to_frame())
 
             if not aligned_data['Close_stock'].empty and not aligned_data['Close_index'].empty:
                 beta, cov, var = calculate_beta(aligned_data['Close_stock'].dropna(), aligned_data['Close_index'].dropna())
-                print(f"Stock: {symbol}, Beta: {beta}, Covariance: {cov}, Variance: {var}, "
-                      f"Stock Returns: {aligned_data['Close_stock'].mean()}, Market Returns: {aligned_data['Close_index'].mean()}")  # Debugging output
                 if np.isfinite(beta):
-                    betas[symbol] = beta
-                    r_squared_values[symbol] = calculate_r_squared(aligned_data['Close_stock'].dropna(), aligned_data['Close_index'].dropna())
-                    latest_close_values[symbol] = stock_data['Close'].iloc[-1]
+                    betas[symbol] = round(beta, 3)
+                    r_squared_values[symbol] = round(calculate_r_squared(aligned_data['Close_stock'].dropna(), aligned_data['Close_index'].dropna()), 3)
+                    latest_close_values[symbol] = round(stock_data['Close_stock'].iloc[-1], 3)
                     symbols[symbol] = symbol
                     valid_stocks_count += 1
                 else:
@@ -156,8 +161,11 @@ def analyze_israeli_stocks(stocks_filepath, index_symbol, years=5):
     cluster_labels = gmm.fit_predict(features)
     results_df['Cluster'] = cluster_labels
 
+    # Add risk level information
+    results_df['Risk Level'] = results_df['Beta'].apply(risk_level)
+
     # Save the results to a CSV file
-    results_df.to_csv('Israel_stocks_results.csv', index=False)
+    results_df.to_csv('TASE_results.csv', index=False)
 
     # Generate random colors for each cluster
     custom_colors = []
@@ -177,15 +185,16 @@ def analyze_israeli_stocks(stocks_filepath, index_symbol, years=5):
                                                        sizemode='area'),
                            hovertext=cluster_df['Symbol'] + '<br>' + cluster_df['Name'] + '<br>Beta: ' + cluster_df[
                                'Beta'].astype(str) + '<br>R-Squared: ' + cluster_df['R-Squared'].astype(
-                               str) + '<br>Latest Close: ' + cluster_df['Latest Close'].astype(str),
-                           name=f'Cluster {cluster}',
+                               str) + '<br>Latest Close Price: ' + cluster_df['Latest Close'].astype(str) +
+                                     '<br>Risk Level: ' + cluster_df['Risk Level'],
+                           showlegend=False,  # Hide legend for clusters
                            marker_color=custom_colors[cluster % len(custom_colors)])
         traces.append(trace)
 
     # Create the layout
     layout = go.Layout(title=f'TASE Tel Aviv 125 Index Stock Clustering based on Beta and R-Squared (Optimal Clusters: {optimal_clusters})',
-                       xaxis=dict(title='Beta', tickmode='linear', dtick=0.25),
-                       yaxis=dict(title='R-Squared'))
+                       xaxis=dict(title='β (Risk)', tickmode='linear', dtick=0.25),
+                       yaxis=dict(title='R² (Market Dependency)'))
 
     # Create the figure
     fig = go.Figure(data=traces, layout=layout)
