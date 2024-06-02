@@ -32,7 +32,7 @@ def calculate_r_squared(stock_returns, market_returns):
 # Determine the optimal number of clusters using BIC
 def determine_optimal_clusters(data):
     bics = []
-    n_clusters_range = range(5, 13)  # from 5 to 12 clusters
+    n_clusters_range = range(5, 20)  # from 5 to 20 clusters
 
     for n_clusters in n_clusters_range:
         gmm = GaussianMixture(n_components=n_clusters, random_state=42)
@@ -192,7 +192,7 @@ def analyze_israeli_stocks(stocks_filepath, index_symbol, years=5):
         traces.append(trace)
 
     # Create the layout
-    layout = go.Layout(title=f'TASE Tel Aviv 125 Index Stock Clustering based on Beta and R-Squared (Optimal Clusters: {optimal_clusters})',
+    layout = go.Layout(title=f'TASE Tel Aviv 125 Index Stock Clustering based on Beta and R-Squared)',
                        xaxis=dict(title='β (Risk)', tickmode='linear', dtick=0.25),
                        yaxis=dict(title='R² (Market Dependency)'))
 
