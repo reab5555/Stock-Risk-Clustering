@@ -1,6 +1,6 @@
 <img src="images/icon.webp" width="100" alt="alt text">
 
-# Stock-Risk-Clustering
+# Stocks-Market Risk Assessment
 This project aims to cluster stocks from the S&P 500 index or the Tel Aviv Stock Exchange (TASE) based on their beta values and R-squared values in order to asses risks for investment portfolios.  
    
 The script fetches historical stock data from Yahoo Finance (a default period of five years), calculates the beta and R-squared for each stock against the S&P 500 index, and performs clustering using the Gaussian Mixture Model (GMM).    
