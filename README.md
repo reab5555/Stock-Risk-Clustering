@@ -34,6 +34,7 @@ The script generates a scatter plot showing the clustered stocks based on their 
 
 <img src="images/SP500_example.png" width="850" alt="alt text">
 <img src="images/TASE_example.png" width="850" alt="alt text">
+<img src="images/SP500_BIC.png" width="700" alt="alt text">
 
 
 ## Dependencies
