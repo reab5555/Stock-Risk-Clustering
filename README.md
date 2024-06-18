@@ -28,7 +28,7 @@ Gaussian Mixture Model (GMM) is a probabilistic model that assumes the data is g
 
 The optimal number of clusters can be determined using the Bayesian Information Criterion (BIC), as it balance the goodness of fit with the complexity of the model, helping to avoid overfitting or underfitting.   
 
-# Results
+## Results
 
 The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock.
 
