@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 from sklearn.mixture import GaussianMixture
 import plotly.graph_objects as go
@@ -32,7 +33,7 @@ def calculate_r_squared(stock_returns, market_returns):
 # Determine the optimal number of clusters using BIC
 def determine_optimal_clusters(data):
     bics = []
-    n_clusters_range = range(5, 13)  # from 5 to 12 clusters
+    n_clusters_range = range(3, 13)  # from 3 to 12 clusters
 
     for n_clusters in n_clusters_range:
         gmm = GaussianMixture(n_components=n_clusters, random_state=42)
@@ -126,8 +127,12 @@ def analyze_stocks(stocks_filepath, index_symbol, years=5):
     # Drop rows with NaN values
     results_df.dropna(inplace=True)
 
+
     # Use the original Beta and R-Squared values for clustering
     features = results_df[['Beta', 'R-Squared']].values
+
+    scaler = StandardScaler()
+    features = scaler.fit_transform(features)
 
     # Determine the optimal number of clusters
     optimal_clusters = determine_optimal_clusters(features)
@@ -153,6 +158,7 @@ def analyze_stocks(stocks_filepath, index_symbol, years=5):
 
     # Create traces for each cluster
     traces = []
+    cluster_probs = gmm.predict_proba(features)
     for cluster in sorted(results_df['Cluster'].unique()):
         cluster_df = results_df[results_df['Cluster'] == cluster]
         trace = go.Scatter(x=cluster_df['Beta'], y=cluster_df['R-Squared'],
@@ -162,10 +168,13 @@ def analyze_stocks(stocks_filepath, index_symbol, years=5):
                            hovertext=cluster_df['Symbol'] + '<br>' + cluster_df['Name'] + '<br>Beta: ' + cluster_df[
                                'Beta'].astype(str) + '<br>R-Squared: ' + cluster_df['R-Squared'].astype(
                                str) + '<br>Latest Close Price: ' + cluster_df['Latest Close'].astype(str) +
-                                     '<br>Risk Level: ' + cluster_df['Risk Level'],
+                                     '<br>Risk Level: ' + cluster_df['Risk Level'] +
+                                     '<br>Cluster Prob: ' + cluster_probs[cluster_df.index, cluster].round(3).astype(str),
                            showlegend=False,  # Hide legend for clusters
                            marker_color=custom_colors[cluster % len(custom_colors)])
         traces.append(trace)
+
+
 
     # Create the layout
     layout = go.Layout(title=f'S&P500 Index Stock Clustering based on Beta and R-Squared',
