@@ -33,11 +33,12 @@ The optimal number of clusters can be determined using the Bayesian Information 
 The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock.
 
 ### S&P500
-<img src="images/SP500_example.png" width="850" alt="alt text">
 <img src="images/SP500_BIC.png" width="500" alt="alt text">
+<img src="images/SP500_example.png" width="850" alt="alt text">
+
 ### TASE
-<img src="images/TASE_example.png" width="850" alt="alt text">
 <img src="images/TASE_BIC.png" width="500" alt="alt text">
+<img src="images/TASE_example.png" width="850" alt="alt text">
 
 ## Dependencies
 
