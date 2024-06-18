@@ -1,15 +1,14 @@
 <img src="images/icon.webp" width="100" alt="alt text">
 
 # Stocks-Market Risk Assessment
-This project aims -	Developed an algorithm to cluster stocks from stock market indexes based on their beta (risk) and R-squared values (dependency on the market) in order to asses risks for investment portfolios. 
+This project aims to cluster stocks from stock market indexes based on their beta (risk) and R-squared values (dependency on the market) in order to asses risks for investment portfolios. 
    
 The script fetches historical stock data from Yahoo Finance (a default period of five years), calculates the beta and R-squared for each stock against the S&P 500 index, and performs clustering using the Gaussian Mixture Model (GMM).    
 
 ## Beta and R-Squared in Finance
 
 ### Beta
-Beta is a measure of a stock's volatility in relation to the overall market. It indicates how sensitive a stock's price is to market movements.
-
+Beta is a measure of a stock's volatility in relation to the overall market. It indicates how sensitive a stock's price is to market movements.   
 * β = 1: Indicates that the stock's price will move with the market.   
 * β < 1: Indicates that the stock is less volatile than the market.   
 * β > 1: Indicates that the stock is more volatile than the market.   
@@ -27,7 +26,15 @@ In the context of finance, R-squared is often used to evaluate how well a stock'
 ## Gaussian Mixture Model (GMM)
 Gaussian Mixture Model (GMM) is a probabilistic model that assumes the data is generated from a mixture of a finite number of Gaussian distributions. It is commonly used for clustering tasks, where the goal is to group similar data points together based on their underlying probability distributions.    
 
-The optimal number of clusters can be determined using the Bayesian Information Criterion (BIC), as it balance the goodness of fit with the complexity of the model, helping to avoid overfitting or underfitting.
+The optimal number of clusters can be determined using the Bayesian Information Criterion (BIC), as it balance the goodness of fit with the complexity of the model, helping to avoid overfitting or underfitting.   
+
+## Results
+
+The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock.
+
+<img src="images/SP500_example.png" width="850" alt="alt text">
+<img src="images/TASE_example.png" width="850" alt="alt text">
+
 
 ## Dependencies
 
@@ -50,12 +57,3 @@ python Stocks_Risk_Clustering_SP500.py
 ```
 python Stocks_Risk_Clustering_TASE.py
 ```
-
-
-## Results
-
-The script generates a scatter plot showing the clustered stocks based on their beta and R-squared values. Each cluster is represented by a different color, and the size of each point indicates the latest close price of the stock.
-
-<img src="images/SP500_example.png" width="850" alt="alt text">
-<img src="images/TASE_example.png" width="850" alt="alt text">
-
