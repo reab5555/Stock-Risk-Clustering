@@ -1,6 +1,6 @@
 <img src="images/icon.webp" width="100" alt="alt text">
 
-# Stocks-Market Risk Assessment
+# Financial Market Risk Assessment
 This project aims to cluster stocks from stock market indexes based on their beta (risk) and R-squared values (dependency on the market) in order to asses risks for investment portfolios. 
    
 The script fetches historical stock data from Yahoo Finance (a default period of five years), calculates the beta and R-squared for each stock against the S&P 500 index, and performs clustering using the Gaussian Mixture Model (GMM).    
